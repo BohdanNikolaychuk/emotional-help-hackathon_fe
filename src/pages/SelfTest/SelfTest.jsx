@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
+import Chart from '../../components/PieChart/PieChart';
 
 const theme = createTheme();
 const OvalStyle = {
@@ -39,6 +40,8 @@ const values = [
 ];
 
 function SelfTest() {
+  const [show, setShow] = React.useState(false);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -62,24 +65,16 @@ function SelfTest() {
               to="/">
               Go Back
             </Button>
-            <Card
-              sx={{
-                maxWidth: 538,
-                position: 'relative',
-                zIndex: '100',
-                border: '1px solid #03ACF2',
-              }}>
-              <CardContent>
-                <Typography
-                  style={{ position: 'relative', zIndex: '100' }}
-                  variant="h5"
-                  align="left"
-                  color="text.secondary"
-                  paragraph
-                  maxWidth="sm">
-                  question 1/20
-                </Typography>
-
+            {show ? (
+              <Chart></Chart>
+            ) : (
+              <Card
+                sx={{
+                  maxWidth: 538,
+                  position: 'relative',
+                  zIndex: '100',
+                  border: '1px solid #03ACF2',
+                }}>
                 <CardContent>
                   <Typography
                     style={{ position: 'relative', zIndex: '100' }}
@@ -88,43 +83,56 @@ function SelfTest() {
                     color="text.secondary"
                     paragraph
                     maxWidth="sm">
-                    How easy is it to talk about your feelings?
+                    question 1/20
                   </Typography>
+
+                  <CardContent>
+                    <Typography
+                      style={{ position: 'relative', zIndex: '100' }}
+                      variant="h5"
+                      align="left"
+                      color="text.secondary"
+                      paragraph
+                      maxWidth="sm">
+                      How easy is it to talk about your feelings?
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Box sx={{ width: '100%' }}>
+                      <Grid
+                        container
+                        spacing={2}
+                        display="flex"
+                        justifyContent="center"
+                        alignItems="center">
+                        {values.map((element) => (
+                          <Grid
+                            xs={6}
+                            display="flex"
+                            justifyContent="center"
+                            alignItems="center"
+                            columnSpacing={2}
+                            item
+                            key={element.value}>
+                            <Button
+                              onClick={() => setShow(!show)}
+                              style={{
+                                textTransform: 'none',
+                                background: '#03ACF2',
+                              }}
+                              size="large"
+                              variant="contained">
+                              {element.value}
+                            </Button>
+                          </Grid>
+                        ))}
+                        {/*  */}
+                      </Grid>
+                    </Box>
+                  </CardActions>
                 </CardContent>
-                <CardActions>
-                  <Box sx={{ width: '100%' }}>
-                    <Grid
-                      container
-                      spacing={2}
-                      display="flex"
-                      justifyContent="center"
-                      alignItems="center">
-                      {values.map((element) => (
-                        <Grid
-                          xs={6}
-                          display="flex"
-                          justifyContent="center"
-                          alignItems="center"
-                          columnSpacing={2}
-                          item
-                          key={element.value}>
-                          <Button
-                            style={{
-                              textTransform: 'none',
-                              background: '#03ACF2',
-                            }}
-                            size="large"
-                            variant="contained">
-                            {element.value}
-                          </Button>
-                        </Grid>
-                      ))}
-                      {/*  */}
-                    </Grid>
-                  </Box>
-                </CardActions>
-              </CardContent>
-            </Card>
+              </Card>
+            )}
           </Container>
         </Box>
         <img style={OvalStyle} src={Oval} alt="" />
