@@ -19,7 +19,7 @@ function App() {
         <Route path="/selftest" element={<SelfTest />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
-    </div>
+    </div >
   );
 }
 
