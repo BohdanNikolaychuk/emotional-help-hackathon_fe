@@ -1,18 +1,12 @@
-import { Routes, Route, Navigate, Link } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import SelfTest from './pages/SelfTest/SelfTest';
+import Header from "./components/Header/Header";
 
 function App() {
   return (
     <div className="App">
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/selftest">About</Link>
-        </li>
-      </ul>
+      <Header />
 
       <Routes>
         <Route path="/" element={<Home />} />
