@@ -34,7 +34,7 @@ function Home() {
           }}>
           <Container maxWidth="lg">
             <Typography
-              style={{ position: 'relative', zIndex: '100' }}
+              style={{ position: 'relative', zIndex: '100', paddingTop: '100px' }}
               component="h1"
               variant="h2"
               align="left"
