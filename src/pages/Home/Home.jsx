@@ -32,9 +32,9 @@ function Home() {
             pt: 12,
             pb: 6,
           }}>
-          <Container maxWidth="lg">
+          <Container sx={{ position: 'relative', zIndex: '100' }} maxWidth="lg">
             <Typography
-              style={{ position: 'relative', zIndex: '100', paddingTop: '90px' }}
+              style={{ paddingTop: '90px' }}
               component="h1"
               variant="h2"
               align="left"
