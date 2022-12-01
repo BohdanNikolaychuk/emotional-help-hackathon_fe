@@ -24,24 +24,65 @@ const OvalStyle = {
   maxHeight: '100%',
 };
 
-const values = [
+const questions = [
   {
-    value: 'value1',
+    questionText: 'How often do you cry?',
+    answerOptions: [
+      { answerText: 'Once a day at least' },
+      { answerText: 'Around once a week ' },
+      { answerText: 'Once a month usually on my period' },
+      { answerText: 'Hardly ever' },
+    ],
   },
   {
-    value: 'value2',
+    questionText: 'How often do you cry?',
+    answerOptions: [
+      { answerText: 'Once a day at least' },
+      { answerText: 'Around once a week ' },
+      { answerText: 'Once a month usually on my period' },
+      { answerText: 'Hardly ever' },
+    ],
   },
   {
-    value: 'value3',
+    questionText: 'How often do you cry?',
+    answerOptions: [
+      { answerText: 'Once a day at least' },
+      { answerText: 'Around once a week ' },
+      { answerText: 'Once a month usually on my period' },
+      { answerText: 'Hardly ever' },
+    ],
   },
   {
-    value: 'value4',
+    questionText: 'How often do you cry?',
+    answerOptions: [
+      { answerText: 'Once a day at least' },
+      { answerText: 'Around once a week ' },
+      { answerText: 'Once a month usually on my period' },
+      { answerText: 'Hardly ever' },
+    ],
   },
 ];
 
 function SelfTest() {
   const [show, setShow] = React.useState(false);
+  const [currentQuestion, setCurrentQuestion] = React.useState(0);
+  const [answer, setAnswer] = React.useState([]);
 
+  const handleAnswerOptionClick = (currentAnswer) => {
+    const updateAnswear = [
+      ...answer,
+      { name: currentAnswer, value: Math.floor(Math.random() * 100) },
+    ];
+    setAnswer(updateAnswear);
+
+    const nextQuestion = currentQuestion + 1;
+
+    if (nextQuestion < questions.length) {
+      setCurrentQuestion(nextQuestion);
+    } else {
+      setShow(!show);
+    }
+  };
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -66,7 +107,7 @@ function SelfTest() {
               Go Back
             </Button>
             {show ? (
-              <Chart></Chart>
+              <Chart pieChart={answer}></Chart>
             ) : (
               <Card
                 sx={{
@@ -83,7 +124,7 @@ function SelfTest() {
                     color="text.secondary"
                     paragraph
                     maxWidth="sm">
-                    question 1/20
+                    Question {currentQuestion + 1}/{questions.length}
                   </Typography>
 
                   <CardContent>
@@ -94,7 +135,7 @@ function SelfTest() {
                       color="text.secondary"
                       paragraph
                       maxWidth="sm">
-                      How easy is it to talk about your feelings?
+                      {questions[currentQuestion].questionText}
                     </Typography>
                   </CardContent>
                   <CardActions>
@@ -105,7 +146,7 @@ function SelfTest() {
                         display="flex"
                         justifyContent="center"
                         alignItems="center">
-                        {values.map((element) => (
+                        {questions[currentQuestion].answerOptions.map((element) => (
                           <Grid
                             xs={6}
                             display="flex"
@@ -113,16 +154,16 @@ function SelfTest() {
                             alignItems="center"
                             columnSpacing={2}
                             item
-                            key={element.value}>
+                            key={element.answerText}>
                             <Button
-                              onClick={() => setShow(!show)}
+                              onClick={(e) => handleAnswerOptionClick(element.answerText)}
                               style={{
                                 textTransform: 'none',
                                 background: '#03ACF2',
                               }}
                               size="large"
                               variant="contained">
-                              {element.value}
+                              {element.answerText}
                             </Button>
                           </Grid>
                         ))}
