@@ -8,7 +8,7 @@ const CustomTooltip = ({ active, payload, label }) => {
       <div
         className="custom-tooltip"
         style={{ backgroundColor: '#ffff', padding: '5px', border: '1px solid #cccc' }}>
-        <label>{`${payload[0].name} : ${payload[0].value}%`}</label>
+        <label>{`${payload[0].answerGroup} : ${payload[0].answerGroup}%`}</label>
       </div>
     );
   }
@@ -18,15 +18,14 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 export default function Chart({ ...pieChart }) {
   const answer = pieChart.pieChart;
-  console.log(answer);
+
   return (
-    <PieChart width={730} height={300}>
+    <PieChart width={730} height={300} style={{ zIndex: '1000' }}>
       <Pie
-        sx={{ position: 'relative', zIndex: '100' }}
         data={answer}
         color="#000000"
-        dataKey="value"
-        nameKey="name"
+        dataKey="mark"
+        nameKey="answerGroup"
         cx="50%"
         cy="50%"
         outerRadius={120}
