@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import MenuIcon from '@mui/icons-material/Menu';
+import { Divider } from '@mui/material';
 
 import Logo from "./components/Logo/Logo";
 import ContainedButton from "./components/ContaintedButton/ContainedButton";
@@ -57,16 +58,19 @@ function Header() {
             <>
                 <Button
                     style={{ textTransform: 'none', color: "rgba(0, 0, 0, 0.75)", fontWeight: 600 }}
-                    sx={{ p: 0, fontSize: { sm: 14, md: 18}, mr: { xs: ".5em", md: "1em"}}}
+                    sx={{ p: 0, fontSize: { sm: 14, md: 18}}}
                     component={Link}
                     to="/login"
                 >
                     LOGIN
                 </Button>
-                <ContainedButton content={'REGISTER'} link={'/register'}/>
+                <Divider orientation='vertical' flexItem={true} style={{background: "rgba(0, 0, 0, 0.25)"}}/>
+                <ContainedButton content={'REGISTER'} link={'/registration'}/>
             </>
         )
     }
+
+
 
     const navButtons = getNavButtons(isAuth);
 
@@ -99,54 +103,57 @@ function Header() {
                         Medical
                     </Typography>
 
-                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
-                            color="inherit"
-                        >
-                            <MenuIcon style={{ color: "#000000"}}/>
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                            open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
-                            sx={{
-                                display: { xs: 'block', md: 'none' },
-                            }}
-                        >
-                            {pages.map((page) => (
-                                <MenuItem key={page.label} onClick={handleCloseNavMenu}>
-                                    <Button
-                                        style={{color: "#000000", textTransform: "none"}}
-                                        component={Link}
-                                        to={page.link}
-                                    >
-                                        {page.label}
-                                    </Button>
-                                </MenuItem>
-                            ))}
-                        </Menu>
-                    </Box>
+                    { isAuth &&
+                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                            <IconButton
+                                size="large"
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                onClick={handleOpenNavMenu}
+                                color="inherit"
+                            >
+                                <MenuIcon style={{ color: "#000000"}}/>
+                            </IconButton>
+                            <Menu
+                                id="menu-appbar"
+                                anchorEl={anchorElNav}
+                                anchorOrigin={{
+                                    vertical: 'bottom',
+                                    horizontal: 'left',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'left',
+                                }}
+                                open={Boolean(anchorElNav)}
+                                onClose={handleCloseNavMenu}
+                                sx={{
+                                    display: { xs: 'block', md: 'none' },
+                                }}
+                            >
+                                {pages.map((page) => (
+                                    <MenuItem key={page.label} onClick={handleCloseNavMenu}>
+                                        <Button
+                                            style={{color: "#000000", textTransform: "none"}}
+                                            component={Link}
+                                            to={page.link}
+                                        >
+                                            {page.label}
+                                        </Button>
+                                    </MenuItem>
+                                ))}
+                            </Menu>
+                        </Box>
+                    }
 
                     <Box
                         sx={{
                             display: { xs: 'none', sm: "flex", md: 'none' },
                             height: { xs: "2em", sm: "3em", md: "4em"},
-                            mr: 1 }}
+                            mr: 1
+                        }}
                     >
                         <Logo />
                     </Box>
@@ -169,24 +176,26 @@ function Header() {
                         Medical
                     </Typography>
 
-                    <List sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, gap: 3 }}>
-                        {pages.map((page) => (
-                            <ListItemButton
-                                className="menu-item"
-                                style={{textTransform: 'none', color: "rgba(0, 0, 0, 0.75)", fontWeight: 600, flexGrow: 0}}
-                                key={page.label}
-                                component={NavLink}
-                                to={page.link}
-                                onClick={handleCloseNavMenu}
-                                sx={{ color: 'white', display: 'block', fontSize: { sm: 14, md: 18}, p: 0 }}
-                                selected={page.link === location.pathname}
-                            >
-                                {page.label}
-                            </ListItemButton>
-                        ))}
-                    </List>
+                    { isAuth &&
+                        <List sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, gap: 3 }}>
+                            {pages.map((page) => (
+                                <ListItemButton
+                                    className="menu-item"
+                                    style={{textTransform: 'none', color: "rgba(0, 0, 0, 0.75)", fontWeight: 600, flexGrow: 0}}
+                                    key={page.label}
+                                    component={NavLink}
+                                    to={page.link}
+                                    onClick={handleCloseNavMenu}
+                                    sx={{ color: 'white', display: 'block', fontSize: { sm: 14, md: 18}, p: 0 }}
+                                    selected={page.link === location.pathname}
+                                >
+                                    {page.label}
+                                </ListItemButton>
+                            ))}
+                        </List>
+                    }
 
-                    <Box sx={{ flexGrow: 0 }}>
+                    <Box sx={{ marginLeft: 'auto', display: 'flex', gap: '1em' }}>
                         {navButtons}
                     </Box>
                 </Toolbar>

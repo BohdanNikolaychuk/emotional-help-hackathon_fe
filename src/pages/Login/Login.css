@@ -1,0 +1,51 @@
+.login {
+    font-size: 20px;
+    padding-top: 120px;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 3em;
+}
+
+.login-form {
+    flex: 1 1 55%;
+}
+
+
+
+@media screen and (max-width: 900px) {
+    .login {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 772px) {
+    .login .common-form {
+        width: 75%;
+    }
+
+    .login-container {
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 552px) {
+    .login .common-form {
+        width: 100%;
+        padding: .5em 1em;
+    }
+
+    .login {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .login .common-form-passwords,
+    .login .common-form-footer {
+        flex-direction: column;
+    }
+}
