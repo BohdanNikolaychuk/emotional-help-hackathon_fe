@@ -1,0 +1,17 @@
+.registration {
+    font-size: 20px;
+    padding-top: 120px;
+}
+
+
+.registration-container {
+    display: flex;
+    align-items: center;
+    gap: 2em;
+}
+
+.registration-form {
+    flex: 1 1 60%;
+}
+
+

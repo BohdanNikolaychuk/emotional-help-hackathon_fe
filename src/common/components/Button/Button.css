@@ -1,0 +1,15 @@
+.common-button {
+    font-size: 1em;
+    color: #ffffff;
+
+    background: #03ACF2;
+    border-radius: 1em;
+    border: none;
+
+    padding: .4em 1.5em;
+    cursor: pointer;
+}
+
+.common-button:hover {
+    background: #5ac1f6;
+}
