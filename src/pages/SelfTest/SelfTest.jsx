@@ -35,7 +35,7 @@ function SelfTest() {
   const postData = async () => {
     try {
       const { data } = await axios.post(
-        'http://44.210.115.207:8080/emotional-maps?userId=3',
+        '/api/emotional-maps?userId=3',
         { answers: answer },
         {
           headers: {
