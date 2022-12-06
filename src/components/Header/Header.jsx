@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import MenuIcon from '@mui/icons-material/Menu';
+import { Divider } from '@mui/material';
 
 import Logo from "./components/Logo/Logo";
 import ContainedButton from "./components/ContaintedButton/ContainedButton";
@@ -57,16 +58,19 @@ function Header() {
             <>
                 <Button
                     style={{ textTransform: 'none', color: "rgba(0, 0, 0, 0.75)", fontWeight: 600 }}
-                    sx={{ p: 0, fontSize: { sm: 14, md: 18}, mr: { xs: ".5em", md: "1em"}}}
+                    sx={{ p: 0, fontSize: { sm: 14, md: 18}}}
                     component={Link}
                     to="/login"
                 >
                     LOGIN
                 </Button>
-                <ContainedButton content={'REGISTER'} link={'/register'}/>
+                <Divider orientation='vertical' flexItem={true} style={{background: "rgba(0, 0, 0, 0.25)"}}/>
+                <ContainedButton content={'REGISTER'} link={'/registration'}/>
             </>
         )
     }
+
+
 
     const navButtons = getNavButtons(isAuth);
 
@@ -98,6 +102,7 @@ function Header() {
                     >
                         Medical
                     </Typography>
+
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
@@ -142,11 +147,13 @@ function Header() {
                         </Menu>
                     </Box>
 
+
                     <Box
                         sx={{
                             display: { xs: 'none', sm: "flex", md: 'none' },
                             height: { xs: "2em", sm: "3em", md: "4em"},
-                            mr: 1 }}
+                            mr: 1
+                        }}
                     >
                         <Logo />
                     </Box>
@@ -186,7 +193,7 @@ function Header() {
                         ))}
                     </List>
 
-                    <Box sx={{ flexGrow: 0 }}>
+                    <Box sx={{ marginLeft: 'auto', display: 'flex', gap: '1em' }}>
                         {navButtons}
                     </Box>
                 </Toolbar>

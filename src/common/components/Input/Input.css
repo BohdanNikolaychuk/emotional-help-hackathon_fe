@@ -1,0 +1,59 @@
+
+.input-container {
+    font-size: 1em;
+    position: relative;
+    padding: 1em .5em;
+    overflow: hidden;
+}
+
+.input-container::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: rgba(144, 202, 249);
+
+    left: 50%;
+    bottom: 1em;
+
+    transition: left .2s ease-in-out, width .2s ease-in-out;
+}
+
+.input-container:has(.common-input:focus)::after {
+    width: calc(100% - 1em);
+    left: .5em;
+}
+
+.common-input {
+    display: block;
+    position: relative;
+    font-size: 1em;
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid rgba(0,0,0,0.35);
+    padding: .3em 0;
+}
+
+.common-input:focus {
+    outline: none;
+}
+
+.common-input-label {
+    position: absolute;
+    text-overflow: ellipsis;
+    bottom: 1.35em;
+    left: 0.5em;
+    opacity: .55;
+    transition: transform .2s  0s ease;
+
+    cursor: text;
+}
+
+
+.common-input:focus + .common-input-label,
+.common-input:not(:placeholder-shown) + .common-input-label{
+    transform: translate(-15%, -120%) scale(.65);
+    opacity: 1;
+    color: rgba(144, 202, 249);
+}
+
