@@ -103,50 +103,50 @@ function Header() {
                         Medical
                     </Typography>
 
-                    { isAuth &&
-                        <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                            <IconButton
-                                size="large"
-                                aria-label="account of current user"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleOpenNavMenu}
-                                color="inherit"
-                            >
-                                <MenuIcon style={{ color: "#000000"}}/>
-                            </IconButton>
-                            <Menu
-                                id="menu-appbar"
-                                anchorEl={anchorElNav}
-                                anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'left',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'left',
-                                }}
-                                open={Boolean(anchorElNav)}
-                                onClose={handleCloseNavMenu}
-                                sx={{
-                                    display: { xs: 'block', md: 'none' },
-                                }}
-                            >
-                                {pages.map((page) => (
-                                    <MenuItem key={page.label} onClick={handleCloseNavMenu}>
-                                        <Button
-                                            style={{color: "#000000", textTransform: "none"}}
-                                            component={Link}
-                                            to={page.link}
-                                        >
-                                            {page.label}
-                                        </Button>
-                                    </MenuItem>
-                                ))}
-                            </Menu>
-                        </Box>
-                    }
+
+                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                        <IconButton
+                            size="large"
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleOpenNavMenu}
+                            color="inherit"
+                        >
+                            <MenuIcon style={{ color: "#000000"}}/>
+                        </IconButton>
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorElNav}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}
+                            open={Boolean(anchorElNav)}
+                            onClose={handleCloseNavMenu}
+                            sx={{
+                                display: { xs: 'block', md: 'none' },
+                            }}
+                        >
+                            {pages.map((page) => (
+                                <MenuItem key={page.label} onClick={handleCloseNavMenu}>
+                                    <Button
+                                        style={{color: "#000000", textTransform: "none"}}
+                                        component={Link}
+                                        to={page.link}
+                                    >
+                                        {page.label}
+                                    </Button>
+                                </MenuItem>
+                            ))}
+                        </Menu>
+                    </Box>
+
 
                     <Box
                         sx={{
@@ -176,24 +176,22 @@ function Header() {
                         Medical
                     </Typography>
 
-                    { isAuth &&
-                        <List sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, gap: 3 }}>
-                            {pages.map((page) => (
-                                <ListItemButton
-                                    className="menu-item"
-                                    style={{textTransform: 'none', color: "rgba(0, 0, 0, 0.75)", fontWeight: 600, flexGrow: 0}}
-                                    key={page.label}
-                                    component={NavLink}
-                                    to={page.link}
-                                    onClick={handleCloseNavMenu}
-                                    sx={{ color: 'white', display: 'block', fontSize: { sm: 14, md: 18}, p: 0 }}
-                                    selected={page.link === location.pathname}
-                                >
-                                    {page.label}
-                                </ListItemButton>
-                            ))}
-                        </List>
-                    }
+                    <List sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, gap: 3 }}>
+                        {pages.map((page) => (
+                            <ListItemButton
+                                className="menu-item"
+                                style={{textTransform: 'none', color: "rgba(0, 0, 0, 0.75)", fontWeight: 600, flexGrow: 0}}
+                                key={page.label}
+                                component={NavLink}
+                                to={page.link}
+                                onClick={handleCloseNavMenu}
+                                sx={{ color: 'white', display: 'block', fontSize: { sm: 14, md: 18}, p: 0 }}
+                                selected={page.link === location.pathname}
+                            >
+                                {page.label}
+                            </ListItemButton>
+                        ))}
+                    </List>
 
                     <Box sx={{ marginLeft: 'auto', display: 'flex', gap: '1em' }}>
                         {navButtons}
