@@ -22,7 +22,7 @@ const theme = createTheme();
 
 function SelfTest() {
   const { data, loading, setLoading, error, setError } = useFetch(
-    'http://44.210.115.207:8080/questionnaires?title=Emotional map',
+    '/api/questionnaires?title=Emotional map',
   );
 
   const [show, setShow] = React.useState(false);
