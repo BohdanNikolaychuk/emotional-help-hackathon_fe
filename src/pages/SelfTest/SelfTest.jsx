@@ -34,7 +34,7 @@ function SelfTest() {
 
   const postData = async () => {
     try {
-      await axios.post(
+      const { data } = await axios.post(
         'http://44.210.115.207:8080/emotional-maps?userId=3',
         { answers: answer },
         {
@@ -43,6 +43,8 @@ function SelfTest() {
           },
         },
       );
+
+      setEmotional(data);
     } catch (err) {
       setError(err);
     } finally {
@@ -53,31 +55,31 @@ function SelfTest() {
   //param UserId
 
   //Get Emotional Map
-  const getEmotionalMap = async () => {
-    try {
-      const res = await axios.get('http://44.210.115.207:8080/emotional-maps?userId=1');
-      setEmotional(res);
-    } catch (err) {
-      setError(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const getEmotionalMap = async () => {
+  //   try {
+  //     const res = await axios.get('http://44.210.115.207:8080/emotional-maps?userId=3');
+  //     setEmotional(res);
+  //   } catch (err) {
+  //     setError(err);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const handleAnswerOptionClick = (currentAnswer) => {
     const updateAnswear = [...answer, { ...currentAnswer }];
     setAnswer(updateAnswear);
     const nextQuestion = currentQuestion + 1;
-
     if (nextQuestion < data.length) {
       setCurrentQuestion(nextQuestion);
     } else {
       postData();
-      getEmotionalMap();
-      setLoading(true);
-      // setShow(!show);
+      // getEmotionalMap();
+
+      setShow(!show);
     }
   };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -104,7 +106,7 @@ function SelfTest() {
               Go Back
             </Button>
             {show ? (
-              <Chart pieChart={answer}></Chart>
+              emotional && <Chart pieChart={emotional}></Chart>
             ) : (
               <Card
                 sx={{
