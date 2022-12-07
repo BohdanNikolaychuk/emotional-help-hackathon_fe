@@ -13,14 +13,6 @@ import { Link } from 'react-router-dom';
 
 const theme = createTheme();
 
-const OvalStyle = {
-  position: 'absolute',
-  top: '0',
-  right: '0',
-  maxWidth: '100%',
-  maxHeight: '100%',
-};
-
 function Home() {
   return (
     <ThemeProvider theme={theme}>
@@ -72,7 +64,7 @@ function Home() {
             </Stack>
           </Container>
         </Box>
-        <img style={OvalStyle} src={Oval} alt="" />
+        <img className="main_img" src={Oval} alt="Oval" />
       </main>
     </ThemeProvider>
   );

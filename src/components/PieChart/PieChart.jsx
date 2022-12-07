@@ -1,7 +1,6 @@
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#AF19FF', '#964B00'];
-
 const CustomTooltip = ({ active, payload, label }) => {
   if (active) {
     return (
@@ -16,13 +15,12 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
-export default function Chart({ ...pieChart }) {
+export default function Chart(pieChart) {
   const answer = pieChart.pieChart;
   console.log(answer);
   return (
-    <PieChart width={730} height={300}>
+    <PieChart width={730} height={300} style={{ zIndex: '1000' }}>
       <Pie
-        sx={{ position: 'relative', zIndex: '100' }}
         data={answer}
         color="#000000"
         dataKey="value"

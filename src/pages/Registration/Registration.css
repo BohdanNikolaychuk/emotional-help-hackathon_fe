@@ -15,3 +15,37 @@
 }
 
 
+@media screen and (max-width: 900px) {
+    .registration {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 772px) {
+    .registration .common-form {
+        width: 75%;
+    }
+
+    .registration-container {
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 552px) {
+    .registration .common-form {
+        width: 100%;
+        padding: .5em 1em;
+    }
+
+    .registration {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .registration .common-form-passwords,
+    .registration .common-form-footer {
+        flex-direction: column;
+    }
+}
+

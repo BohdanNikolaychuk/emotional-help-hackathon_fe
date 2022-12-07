@@ -15,74 +15,71 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import Chart from '../../components/PieChart/PieChart';
 
-const theme = createTheme();
-const OvalStyle = {
-  position: 'absolute',
-  top: '0',
-  right: '0',
-  maxWidth: '100%',
-  maxHeight: '100%',
-};
+import axios from 'axios';
+import useFetch from '../../utils/useFetch';
 
-const questions = [
-  {
-    questionText: 'How often do you cry?',
-    answerOptions: [
-      { answerText: 'Once a day at least' },
-      { answerText: 'Around once a week ' },
-      { answerText: 'Once a month usually on my period' },
-      { answerText: 'Hardly ever' },
-    ],
-  },
-  {
-    questionText: 'How often do you cry?',
-    answerOptions: [
-      { answerText: 'Once a day at least' },
-      { answerText: 'Around once a week ' },
-      { answerText: 'Once a month usually on my period' },
-      { answerText: 'Hardly ever' },
-    ],
-  },
-  {
-    questionText: 'How often do you cry?',
-    answerOptions: [
-      { answerText: 'Once a day at least' },
-      { answerText: 'Around once a week ' },
-      { answerText: 'Once a month usually on my period' },
-      { answerText: 'Hardly ever' },
-    ],
-  },
-  {
-    questionText: 'How often do you cry?',
-    answerOptions: [
-      { answerText: 'Once a day at least' },
-      { answerText: 'Around once a week ' },
-      { answerText: 'Once a month usually on my period' },
-      { answerText: 'Hardly ever' },
-    ],
-  },
-];
+const theme = createTheme();
 
 function SelfTest() {
+  const { data, loading, setLoading, error, setError } = useFetch(
+    '/api/questionnaires?title=Emotional map',
+  );
+
   const [show, setShow] = React.useState(false);
   const [currentQuestion, setCurrentQuestion] = React.useState(0);
   const [answer, setAnswer] = React.useState([]);
+  const [emotional, setEmotional] = React.useState(null);
+
+  //Post answer for quiz
+
+  const postData = async () => {
+    try {
+      const { data } = await axios.post(
+        '/api/emotional-maps?userId=3',
+        { answers: answer },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+
+      setEmotional(data);
+    } catch (err) {
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  //param UserId
+
+  //Get Emotional Map
+  // const getEmotionalMap = async () => {
+  //   try {
+  //     const res = await axios.get('http://44.210.115.207:8080/emotional-maps?userId=3');
+  //     setEmotional(res);
+  //   } catch (err) {
+  //     setError(err);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const handleAnswerOptionClick = (currentAnswer) => {
-    const updateAnswear = [
-      ...answer,
-      { name: currentAnswer, value: Math.floor(Math.random() * 100) },
-    ];
+    const updateAnswear = [...answer, { ...currentAnswer }];
     setAnswer(updateAnswear);
-
     const nextQuestion = currentQuestion + 1;
-
-    if (nextQuestion < questions.length) {
+    if (nextQuestion < data.length) {
       setCurrentQuestion(nextQuestion);
     } else {
+      postData();
+      // getEmotionalMap();
+
       setShow(!show);
     }
   };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -98,6 +95,8 @@ function SelfTest() {
               style={{
                 textTransform: 'none',
                 background: '#03ACF2',
+                zIndex: '1000',
+                position: 'relative',
               }}
               size="large"
               variant="contained"
@@ -107,7 +106,7 @@ function SelfTest() {
               Go Back
             </Button>
             {show ? (
-              <Chart pieChart={answer}></Chart>
+              emotional && <Chart pieChart={emotional}></Chart>
             ) : (
               <Card
                 sx={{
@@ -116,18 +115,20 @@ function SelfTest() {
                   zIndex: '100',
                   border: '1px solid #03ACF2',
                 }}>
-                <CardContent>
+                {loading ? (
                   <Typography
-                    style={{ position: 'relative', zIndex: '100' }}
                     variant="h5"
                     align="left"
                     color="text.secondary"
                     paragraph
                     maxWidth="sm">
-                    Question {currentQuestion + 1}/{questions.length}
+                    A moment please...
                   </Typography>
-
+                ) : (
                   <CardContent>
+                    {error && (
+                      <Typography>{`There is a problem fetching the post data - ${error}`}</Typography>
+                    )}
                     <Typography
                       style={{ position: 'relative', zIndex: '100' }}
                       variant="h5"
@@ -135,48 +136,60 @@ function SelfTest() {
                       color="text.secondary"
                       paragraph
                       maxWidth="sm">
-                      {questions[currentQuestion].questionText}
+                      Question {currentQuestion + 1}/{data && data.length}
                     </Typography>
+
+                    <CardContent>
+                      <Typography
+                        style={{ position: 'relative', zIndex: '100' }}
+                        variant="h5"
+                        align="left"
+                        color="text.secondary"
+                        paragraph
+                        maxWidth="sm">
+                        {data && data[currentQuestion].questionText}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Box sx={{ width: '100%' }}>
+                        <Grid
+                          container
+                          spacing={2}
+                          display="flex"
+                          justifyContent="center"
+                          alignItems="center">
+                          {data &&
+                            data[currentQuestion].answers.map((element) => (
+                              <Grid
+                                xs={6}
+                                display="flex"
+                                justifyContent="center"
+                                alignItems="center"
+                                columnSpacing={2}
+                                item
+                                key={element.value}>
+                                <Button
+                                  onClick={(e) => handleAnswerOptionClick(element)}
+                                  style={{
+                                    textTransform: 'none',
+                                    background: '#03ACF2',
+                                  }}
+                                  size="large"
+                                  variant="contained">
+                                  {element.value}
+                                </Button>
+                              </Grid>
+                            ))}
+                        </Grid>
+                      </Box>
+                    </CardActions>
                   </CardContent>
-                  <CardActions>
-                    <Box sx={{ width: '100%' }}>
-                      <Grid
-                        container
-                        spacing={2}
-                        display="flex"
-                        justifyContent="center"
-                        alignItems="center">
-                        {questions[currentQuestion].answerOptions.map((element) => (
-                          <Grid
-                            xs={6}
-                            display="flex"
-                            justifyContent="center"
-                            alignItems="center"
-                            columnSpacing={2}
-                            item
-                            key={element.answerText}>
-                            <Button
-                              onClick={(e) => handleAnswerOptionClick(element.answerText)}
-                              style={{
-                                textTransform: 'none',
-                                background: '#03ACF2',
-                              }}
-                              size="large"
-                              variant="contained">
-                              {element.answerText}
-                            </Button>
-                          </Grid>
-                        ))}
-                        {/*  */}
-                      </Grid>
-                    </Box>
-                  </CardActions>
-                </CardContent>
+                )}
               </Card>
             )}
           </Container>
         </Box>
-        <img style={OvalStyle} src={Oval} alt="" />
+        <img className="main_img" src={Oval} alt="" />
       </main>
     </ThemeProvider>
   );
