@@ -12,6 +12,7 @@ import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {useAuth} from "../../context/AuthContext";
 const theme = createTheme();
 
 const OvalStyle = {
@@ -23,6 +24,11 @@ const OvalStyle = {
 };
 
 function Profile() {
+
+    const {user} = useAuth();
+
+    console.log(user)
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

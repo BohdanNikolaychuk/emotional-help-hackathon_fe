@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
 import Input from '../../common/components/Input/Input';
 import Button from '../../common/components/Button/Button';
@@ -10,17 +10,26 @@ import authImage from '../../assets/Register.svg';
 import '../../common/styles/form.css';
 import '../../common/styles/auth.css';
 import './Registration.css';
+import {useAuth} from "../../context/AuthContext";
 
 function Registration() {
-  const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rePassword, setRePassword] = useState('');
   const [policyConfirmed, setPolicyConfirmed] = useState(false);
+  const {signUp} = useAuth();
+  const navigate = useNavigate();
 
   const submitRegistration = (event) => {
     event.preventDefault();
-    console.log('hello?)');
+
+    if( !username || !email || !password || ! rePassword || !policyConfirmed ) return;
+    if( password !== rePassword ) return;
+
+    signUp({ username, email, password}).then(() => {
+      navigate('/selftest')
+    }).catch(() => {});
   };
 
   const handleFieldChange = (event, setStateFunction) => {
@@ -46,8 +55,8 @@ function Registration() {
           <fieldset className="common-form-fieldset">
             <Input
               labelText="Name"
-              value={name}
-              onChange={(event) => handleFieldChange(event, setName)}
+              value={username}
+              onChange={(event) => handleFieldChange(event, setUsername)}
             />
           </fieldset>
 

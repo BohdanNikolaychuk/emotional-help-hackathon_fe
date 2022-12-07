@@ -1,6 +1,8 @@
 import * as React from 'react';
 import {useState} from "react";
-import {Link, NavLink, useLocation} from "react-router-dom";
+import {Link, NavLink, useLocation, useNavigate} from "react-router-dom";
+
+import {useAuth} from "../../context/AuthContext";
 
 import {AppBar, IconButton, List, ListItemButton, Menu, MenuItem, Toolbar} from "@mui/material";
 import Container from "@mui/material/Container";
@@ -26,18 +28,19 @@ const pages = [
     },
     {
         label: 'Therapy',
-        link: '/'
+        link: '/therapy'
     },
     {
         label: 'Trainings',
-        link: '/'
+        link: '/trainings'
     },
 ]
 
 function Header() {
 
-    const [isAuth, setIsAuth] = useState(false);
+    const { isTokenAuth, logOut } = useAuth();
     const location = useLocation();
+    const navigate = useNavigate();
 
     const [anchorElNav, setAnchorElNav] = useState(null);
 
@@ -49,9 +52,25 @@ function Header() {
         setAnchorElNav(null);
     };
 
+    const handleLogOut = () => {
+        logOut();
+        navigate('/');
+    }
+
     const getNavButtons = (isAuth) => {
         if( isAuth ) {
-            return <ContainedButton content={'Profile'} link={'/profile'}/>
+            return (
+                <>
+                    <Button
+                        style={{ textTransform: 'none', color: "rgba(0, 0, 0, 0.75)", fontWeight: 600 }}
+                        sx={{ p: 0, fontSize: { sm: 14, md: 18}}}
+                        onClick={handleLogOut}
+                    >
+                        Logout
+                    </Button>
+                    <ContainedButton content={'Profile'} link={'/profile'}/>
+                </>
+            )
         }
 
         return (
@@ -72,7 +91,7 @@ function Header() {
 
 
 
-    const navButtons = getNavButtons(isAuth);
+    const navButtons = getNavButtons(isTokenAuth);
 
     return (
         <AppBar

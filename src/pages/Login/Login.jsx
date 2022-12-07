@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
 import Input from '../../common/components/Input/Input';
 import Button from '../../common/components/Button/Button';
@@ -9,14 +9,24 @@ import authImage from '../../assets/Register.svg';
 import './Login.css';
 import '../../common/styles/form.css';
 import '../../common/styles/auth.css';
+import {useAuth} from "../../context/AuthContext";
+import {AxiosError} from "axios";
 
 function Login() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+  const { logIn } = useAuth();
 
-  const submitRegistration = (event) => {
+  const submitForm = (event) => {
     event.preventDefault();
-    console.log('hello?)');
+
+    if( !username || !password ) return;
+
+    logIn({ username, password }).then(() => {
+      navigate('/selftest')
+    }).catch(() => {});
+
   };
 
   const handleFieldChange = (event, setStateFunction) => {
@@ -26,7 +36,7 @@ function Login() {
   return (
     <div className="login">
       <div className="container login-container">
-        <form className="common-form login-form" onSubmit={submitRegistration}>
+        <form className="common-form login-form" onSubmit={submitForm}>
           <h3 className="common-form-title">Login into Your Account</h3>
 
           <div className="common-form-redirect">
@@ -38,8 +48,8 @@ function Login() {
           <fieldset className="common-form-fieldset">
             <Input
               labelText="Email"
-              value={email}
-              onChange={(event) => handleFieldChange(event, setEmail)}
+              value={username}
+              onChange={(event) => handleFieldChange(event, setUsername)}
             />
           </fieldset>
 
