@@ -3,7 +3,7 @@ import Oval from '../../assets/Oval.svg';
 
 import CssBaseline from '@mui/material/CssBaseline';
 import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
+import Avatar from '@mui/material/Avatar';
 
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
@@ -12,7 +12,6 @@ import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-
 const theme = createTheme();
 
 const OvalStyle = {
@@ -51,21 +50,41 @@ function Profile() {
             <Card
               sx={{
                 maxWidth: 538,
+                width: '100%',
                 position: 'relative',
                 zIndex: '100',
                 border: '1px solid #03ACF2',
               }}>
-              <CardContent sx={{ display: 'flex' }}>
-                <Box sx={{ background: 'green', width: '100%' }}></Box>
+              <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Box
+                  sx={{
+                    background: '#03ACF2',
+                    width: '50%',
+                    borderRadius: '20px',
+                    mr: 5,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Avatar
+                    sx={{
+                      width: 70,
+                      height: 70,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      position: 'absolute',
+                    }}
+                    src="/broken-image.jpg"
+                  />
+                </Box>
                 <Box>
                   <Typography
                     style={{ position: 'relative', zIndex: '100' }}
                     variant="h5"
                     align="center"
                     color="text.secondary"
-                    paragraph
                     maxWidth="sm">
-                    Full Name : Johnatan Smith
+                    Full Name :<br></br> Johnatan Smith
                   </Typography>
                   <hr />
                   <Typography
@@ -73,11 +92,22 @@ function Profile() {
                     variant="h5"
                     align="center"
                     color="text.secondary"
-                    paragraph
                     maxWidth="sm">
-                    Email : example@example.com
+                    Email :<br></br> example@example.com
                   </Typography>
                   <hr />
+                  <Button
+                    style={{
+                      textTransform: 'none',
+                      background: '#03ACF2',
+                    }}
+                    size="large"
+                    variant="contained"
+                    sx={{ m: 2 }}
+                    component={Link}
+                    to="/selftest">
+                    Test Yourself
+                  </Button>
                 </Box>
               </CardContent>
             </Card>
