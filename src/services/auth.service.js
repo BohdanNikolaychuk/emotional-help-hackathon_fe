@@ -42,7 +42,7 @@ const useAuthService = () => {
         setLoading(true);
 
         try {
-            const { data } = await axios.get(`users/current`);
+            const { data } = await axios.get(`/api/users/current`);
 
             setLoading(false);
 
