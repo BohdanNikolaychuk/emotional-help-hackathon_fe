@@ -1,3 +1,4 @@
 export const environment = {
-    baseApiURL: 'https://44.210.115.207:8080'
+    baseApiURL: process.env.REACT_APP_BASE_API_URL ?? '/api',
 }
+

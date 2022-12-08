@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 
+import {useAuth} from "../../context/AuthContext";
+
 import Input from '../../common/components/Input/Input';
 import Button from '../../common/components/Button/Button';
 import { Checkbox } from '@mui/material';
@@ -10,7 +12,6 @@ import authImage from '../../assets/Register.svg';
 import '../../common/styles/form.css';
 import '../../common/styles/auth.css';
 import './Registration.css';
-import {useAuth} from "../../context/AuthContext";
 
 function Registration() {
   const [username, setUsername] = useState('');
@@ -19,7 +20,6 @@ function Registration() {
   const [rePassword, setRePassword] = useState('');
   const [policyConfirmed, setPolicyConfirmed] = useState(false);
   const {signUp} = useAuth();
-  const navigate = useNavigate();
 
   const submitRegistration = (event) => {
     event.preventDefault();
@@ -27,9 +27,9 @@ function Registration() {
     if( !username || !email || !password || ! rePassword || !policyConfirmed ) return;
     if( password !== rePassword ) return;
 
-    signUp({ username, email, password}).then(() => {
-      navigate('/selftest')
-    }).catch(() => {});
+    signUp({ username, email, password})
+        .then(() => {})
+        .catch(() => {});
   };
 
   const handleFieldChange = (event, setStateFunction) => {

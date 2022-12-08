@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../utils/axios";
 import {useState} from "react";
 import getCookie from "../utils/getCookie";
 
@@ -10,7 +10,7 @@ const useAuthService = () => {
         setLoading(true);
 
         try {
-            const { data } = await axios.post(`/api/auth/sign-in?username=${username}&password=${password}`);
+            const { data } = await axios.post(`/auth/sign-in?username=${username}&password=${password}`);
             setLoading(false);
 
             return data
@@ -26,7 +26,7 @@ const useAuthService = () => {
 
         try {
             const anonymousId = getCookie('anonymous');
-            const { data } = await axios.post(`/api/auth/sign-up?anonymousUuid=${anonymousId}`, body);
+            const { data } = await axios.post(`/auth/sign-up?anonymousUuid=${anonymousId}`, body);
             setLoading(false);
 
             return data;
@@ -42,7 +42,7 @@ const useAuthService = () => {
         setLoading(true);
 
         try {
-            const { data } = await axios.get(`/api/users/current`);
+            const { data } = await axios.get(`/users/current`);
 
             setLoading(false);
 

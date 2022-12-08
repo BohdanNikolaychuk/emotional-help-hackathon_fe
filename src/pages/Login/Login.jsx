@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 
+import {useAuth} from "../../context/AuthContext";
+
 import Input from '../../common/components/Input/Input';
 import Button from '../../common/components/Button/Button';
 
@@ -9,13 +11,10 @@ import authImage from '../../assets/Register.svg';
 import './Login.css';
 import '../../common/styles/form.css';
 import '../../common/styles/auth.css';
-import {useAuth} from "../../context/AuthContext";
-import {AxiosError} from "axios";
 
 function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
   const { logIn } = useAuth();
 
   const submitForm = (event) => {
@@ -23,9 +22,9 @@ function Login() {
 
     if( !username || !password ) return;
 
-    logIn({ username, password }).then(() => {
-      navigate('/selftest')
-    }).catch(() => {});
+    logIn({ username, password })
+        .then(() => {})
+        .catch(() => {});
 
   };
 

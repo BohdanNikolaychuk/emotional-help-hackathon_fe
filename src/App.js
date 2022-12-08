@@ -16,12 +16,25 @@ import {useAuth} from "./context/AuthContext";
 function App() {
     const [anonymousCookie,setAnonymousCookie] = useCookie('anonymous');
     const [token] = useCookie('token');
-    const {getUser} = useAuth();
+    const {getUser, isTokenAuth} = useAuth();
 
     useEffect(() => {
         if( !anonymousCookie && !token ) setAnonymousCookie(v4());
         if( token ) getUser();
-    }, [])
+    }, []);
+
+    const getRoutes = (isAuth) => {
+        if( isAuth ) return <Route path="/profile" element={<Profile />} />
+
+        return (
+            <>
+                <Route path="/login" element={<Login />} />
+                <Route path="/registration" element={<Registration />} />
+            </>
+        )
+    }
+
+    const additionalRoutes = getRoutes(isTokenAuth);
 
     return (
         <div className="App">
@@ -30,9 +43,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/selftest" element={<SelfTest />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/registration" element={<Registration />} />
-                <Route path="/profile" element={<Profile />} />
+                {additionalRoutes}
                 <Route path="*" element={<Navigate to="/" />} />
             </Routes>
         </div >

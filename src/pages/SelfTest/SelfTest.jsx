@@ -15,14 +15,14 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import Chart from '../../components/PieChart/PieChart';
 
-import axios from 'axios';
+import axios from '../../utils/axios';
 import useFetch from '../../utils/useFetch';
 
 const theme = createTheme();
 
 function SelfTest() {
   const { data, loading, setLoading, error, setError } = useFetch(
-    '/api/questionnaires?title=Emotional map',
+    '/questionnaires?title=Emotional map',
   );
 
   const [show, setShow] = React.useState(false);
@@ -35,7 +35,7 @@ function SelfTest() {
   const postData = async () => {
     try {
       const { data } = await axios.post(
-        '/api/emotional-maps?userId=3',
+        '/emotional-maps?userId=3',
         { answers: answer },
         {
           headers: {

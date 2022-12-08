@@ -1,6 +1,7 @@
 import {createContext, useContext, useState} from "react";
 import {useCookie} from "../hooks/useCoockie";
 import useAuthService from "../services/auth.service";
+import {v4} from "uuid";
 
 
 const AuthContext = createContext({});
@@ -17,7 +18,7 @@ const initialState = {
 
 export function AuthProvider({ children }) {
     const [token, setToken, removeToken] = useCookie('token');
-    const [anonymousToken,,removeAnonymousToken] = useCookie('anonymous');
+    const [anonymousToken,setAnonymousToken,removeAnonymousToken] = useCookie('anonymous');
     const [userState, setUserState] = useState(initialState);
     const { loginUser, registerUser, getUserInfo } = useAuthService();
 
@@ -29,8 +30,6 @@ export function AuthProvider({ children }) {
 
     const signUp = async (body) => {
         const token = await registerUser(body);
-
-        console.log(token)
 
         if(typeof token === "string") {
             setToken(token);
@@ -44,12 +43,14 @@ export function AuthProvider({ children }) {
 
         if(typeof token === "string") {
             setToken(token);
+            removeAnonymousToken();
             await getUser();
         }
     }
 
     const logOut = () => {
         removeToken();
+        setAnonymousToken(v4());
         setUserState(() => initialState);
     }
 
