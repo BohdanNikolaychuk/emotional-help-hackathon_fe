@@ -95,16 +95,7 @@ function Profile() {
                 </Typography>
               ) : (
                 <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <Box
-                    sx={{
-                      background: '#03ACF2',
-                      width: '50%',
-                      borderRadius: '20px',
-                      mr: 5,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}>
+                  <div className="backgroud_color">
                     <Avatar
                       sx={{
                         width: 70,
@@ -115,10 +106,15 @@ function Profile() {
                       }}
                       src="/broken-image.jpg"
                     />
-                  </Box>
+                  </div>
                   <Box>
                     <Typography
-                      style={{ position: 'relative', zIndex: '100' }}
+                      style={{
+                        position: 'relative',
+                        zIndex: '100',
+                        display: 'flex',
+                        justifyContent: 'center',
+                      }}
                       variant="h5"
                       align="center"
                       color="text.secondary"
@@ -127,7 +123,12 @@ function Profile() {
                     </Typography>
                     <hr />
                     <Typography
-                      style={{ position: 'relative', zIndex: '100' }}
+                      style={{
+                        position: 'relative',
+                        zIndex: '100',
+                        display: 'flex',
+                        justifyContent: 'center',
+                      }}
                       variant="h5"
                       align="center"
                       color="text.secondary"
