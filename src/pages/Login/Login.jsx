@@ -24,7 +24,9 @@ function Login() {
 
     logIn({ username, password })
       .then(() => {})
-      .catch(() => {});
+      .catch((e) => {
+        alert('Not correct name or password');
+      });
   };
 
   const handleFieldChange = (event, setStateFunction) => {
@@ -55,6 +57,7 @@ function Login() {
             <Input
               labelText="Password"
               value={password}
+              minlength="7"
               type="password"
               onChange={(event) => handleFieldChange(event, setPassword)}
             />

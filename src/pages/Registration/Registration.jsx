@@ -29,7 +29,9 @@ function Registration() {
 
     signUp({ username, email, password })
       .then(() => {})
-      .catch(() => {});
+      .catch(() => {
+        alert('Write correct value');
+      });
   };
 
   const handleFieldChange = (event, setStateFunction) => {
@@ -64,6 +66,7 @@ function Registration() {
             <Input
               labelText="Email"
               value={email}
+              type="email"
               onChange={(event) => handleFieldChange(event, setEmail)}
             />
           </fieldset>
