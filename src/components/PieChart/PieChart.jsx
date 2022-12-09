@@ -17,9 +17,9 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 export default function Chart(pieChart) {
   const answer = pieChart.pieChart;
-  console.log(answer);
+  console.log(pieChart);
   return (
-    <PieChart width={730} height={300} style={{ zIndex: '1000' }}>
+    <PieChart width={pieChart.width} height={pieChart.height} style={{ zIndex: '1000' }}>
       <Pie
         data={answer}
         color="#000000"
@@ -27,7 +27,7 @@ export default function Chart(pieChart) {
         nameKey="name"
         cx="50%"
         cy="50%"
-        outerRadius={120}
+        outerRadius={pieChart.outerRadius}
         fill="#8884d8">
         {answer.map((entry, index) => (
           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />

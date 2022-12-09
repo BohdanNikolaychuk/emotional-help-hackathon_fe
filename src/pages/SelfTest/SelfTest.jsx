@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import Oval from '../../assets/Oval.svg';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
-
+import { useCookie } from '../../hooks/useCoockie';
 import CssBaseline from '@mui/material/CssBaseline';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
@@ -14,7 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import Chart from '../../components/PieChart/PieChart';
-
+import { useAuth } from '../../context/AuthContext';
 import axios from '../../utils/axios';
 import useFetch from '../../utils/useFetch';
 
@@ -24,18 +24,21 @@ function SelfTest() {
   const { data, loading, setLoading, error, setError } = useFetch(
     '/questionnaires?title=Emotional map',
   );
+  const { user } = useAuth();
 
   const [show, setShow] = React.useState(false);
   const [currentQuestion, setCurrentQuestion] = React.useState(0);
   const [answer, setAnswer] = React.useState([]);
   const [emotional, setEmotional] = React.useState(null);
+  const [anonymousToken, setAnonymousToken, removeAnonymousToken] = useCookie('anonymous');
 
-  //Post answer for quiz
+  console.log(anonymousToken);
 
+  let UserID = user === null ? anonymousToken : user.id;
   const postData = async () => {
     try {
       const { data } = await axios.post(
-        '/emotional-maps?userId=3',
+        `/emotional-maps?userId=${UserID}`,
         { answers: answer },
         {
           headers: {
@@ -53,18 +56,6 @@ function SelfTest() {
   };
 
   //param UserId
-
-  //Get Emotional Map
-  // const getEmotionalMap = async () => {
-  //   try {
-  //     const res = await axios.get('http://44.210.115.207:8080/emotional-maps?userId=3');
-  //     setEmotional(res);
-  //   } catch (err) {
-  //     setError(err);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   const handleAnswerOptionClick = (currentAnswer) => {
     const updateAnswear = [...answer, { ...currentAnswer }];
@@ -106,7 +97,19 @@ function SelfTest() {
               Go Back
             </Button>
             {show ? (
-              emotional && <Chart pieChart={emotional}></Chart>
+              emotional && (
+                <Container maxWidth="sm">
+                  <Typography
+                    variant="h5"
+                    align="left"
+                    color="text.secondary"
+                    paragraph
+                    maxWidth="sm">
+                    Your result:
+                  </Typography>
+                  <Chart pieChart={emotional} width={260} height={300} outerRadius={120}></Chart>
+                </Container>
+              )
             ) : (
               <Card
                 sx={{
