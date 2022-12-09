@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-import {useAuth} from "../../context/AuthContext";
+import { useAuth } from '../../context/AuthContext';
 
 import Input from '../../common/components/Input/Input';
 import Button from '../../common/components/Button/Button';
@@ -20,12 +20,11 @@ function Login() {
   const submitForm = (event) => {
     event.preventDefault();
 
-    if( !username || !password ) return;
+    if (!username || !password) return;
 
     logIn({ username, password })
-        .then(() => {})
-        .catch(() => {});
-
+      .then(() => {})
+      .catch(() => {});
   };
 
   const handleFieldChange = (event, setStateFunction) => {
@@ -46,7 +45,7 @@ function Login() {
 
           <fieldset className="common-form-fieldset">
             <Input
-              labelText="Email"
+              labelText="Full Name"
               value={username}
               onChange={(event) => handleFieldChange(event, setUsername)}
             />

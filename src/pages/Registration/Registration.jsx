@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import {Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-import {useAuth} from "../../context/AuthContext";
+import { useAuth } from '../../context/AuthContext';
 
 import Input from '../../common/components/Input/Input';
 import Button from '../../common/components/Button/Button';
@@ -19,17 +19,17 @@ function Registration() {
   const [password, setPassword] = useState('');
   const [rePassword, setRePassword] = useState('');
   const [policyConfirmed, setPolicyConfirmed] = useState(false);
-  const {signUp} = useAuth();
+  const { signUp } = useAuth();
 
   const submitRegistration = (event) => {
     event.preventDefault();
 
-    if( !username || !email || !password || ! rePassword || !policyConfirmed ) return;
-    if( password !== rePassword ) return;
+    if (!username || !email || !password || !rePassword || !policyConfirmed) return;
+    if (password !== rePassword) return;
 
-    signUp({ username, email, password})
-        .then(() => {})
-        .catch(() => {});
+    signUp({ username, email, password })
+      .then(() => {})
+      .catch(() => {});
   };
 
   const handleFieldChange = (event, setStateFunction) => {
@@ -48,7 +48,7 @@ function Registration() {
 
           <div className="common-form-redirect">
             <Link className="common-form-redirect-link" to="/login">
-              Or login with your email
+              Or login with your name
             </Link>
           </div>
 
