@@ -1,6 +1,6 @@
 .registration {
     font-size: 20px;
-    padding-top: 120px;
+    padding-top: 10em;
 }
 
 
@@ -11,7 +11,7 @@
 }
 
 .registration-form {
-    flex: 1 1 60%;
+    flex: 1 1 80%;
 }
 
 
@@ -33,8 +33,8 @@
 
 @media screen and (max-width: 552px) {
     .registration .common-form {
-        width: 100%;
-        padding: .5em 1em;
+        width: 80%;
+        padding: 2em 1em;
     }
 
     .registration {
@@ -42,10 +42,24 @@
     }
 }
 
-@media screen and (max-width: 420px) {
+@media screen and (max-width: 400px) {
+    .registration {
+        font-size: 12px;
+    }
+
+    .registration .common-form {
+        width: 90%;
+    }
+
     .registration .common-form-passwords,
     .registration .common-form-footer {
         flex-direction: column;
     }
 }
 
+@media screen and (max-width: 320px) {
+    .registration .common-form {
+        width: 100%;
+    }
+
+}

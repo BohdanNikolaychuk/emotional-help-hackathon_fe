@@ -1,0 +1,19 @@
+.menu-item.Mui-selected{
+    background: transparent !important;
+    position: relative;
+}
+
+.menu-item.Mui-selected:after {
+    content: '';
+    position: absolute;
+
+    background: #61dafb;
+    padding: 2px 0;
+    width: 75%;
+    border-radius: 3px;
+
+    bottom: -20%;
+    left: 50%;
+
+    transform: translate(-50%);
+}

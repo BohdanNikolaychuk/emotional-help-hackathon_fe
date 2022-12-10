@@ -1,6 +1,6 @@
 .login {
     font-size: 20px;
-    padding-top: 120px;
+    padding-top: 10em;
 }
 
 .login-container {
@@ -11,8 +11,9 @@
 }
 
 .login-form {
-    flex: 1 1 55%;
+    flex: 1 1 80%;
 }
+
 
 
 
@@ -24,7 +25,7 @@
 
 @media screen and (max-width: 772px) {
     .login .common-form {
-        width: 75%;
+        width: 60%;
     }
 
     .login-container {
@@ -34,8 +35,8 @@
 
 @media screen and (max-width: 552px) {
     .login .common-form {
-        width: 100%;
-        padding: .5em 1em;
+        width: 70%;
+        padding: 2em 1em;
     }
 
     .login {
@@ -43,9 +44,20 @@
     }
 }
 
-@media screen and (max-width: 420px) {
+@media screen and (max-width: 400px) {
+    .login {
+        font-size: 13px;
+    }
+
+    .login .common-form {
+        width: 90%;
+    }
+
     .login .common-form-passwords,
     .login .common-form-footer {
         flex-direction: column;
     }
 }
+
+
+

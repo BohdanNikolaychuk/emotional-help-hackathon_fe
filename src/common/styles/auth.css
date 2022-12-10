@@ -1,5 +1,5 @@
 .auth-content {
-    flex: 1 1 40%;
+    flex-grow: 1;
     text-align: center;
 }
 

@@ -41,7 +41,7 @@
 .common-input-label {
     position: absolute;
     text-overflow: ellipsis;
-    bottom: 1.35em;
+    bottom: 1.45em;
     left: 0.5em;
     opacity: .55;
     transition: transform .2s  0s ease;
