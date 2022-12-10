@@ -49,6 +49,8 @@ function Home() {
               <Button
                 style={{ textTransform: 'none', padding: '10px 35px' }}
                 pr={2}
+                component={Link}
+                to="/moreInfo"
                 variant="outlined">
                 More Info
               </Button>

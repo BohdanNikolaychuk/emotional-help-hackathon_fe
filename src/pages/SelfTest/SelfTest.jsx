@@ -32,8 +32,6 @@ function SelfTest() {
   const [emotional, setEmotional] = React.useState(null);
   const [anonymousToken, setAnonymousToken, removeAnonymousToken] = useCookie('anonymous');
 
-  console.log(anonymousToken);
-
   let UserID = user === null ? anonymousToken : user.id;
   const postData = async () => {
     try {
