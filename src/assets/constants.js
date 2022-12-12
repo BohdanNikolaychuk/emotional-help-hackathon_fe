@@ -17,7 +17,7 @@ Researchers have also found that people with certain types of brain damage affec
 In other cases, it might involve directly stating how you feel. `
   },
   {
-    backgroundColor: ' #53cbfc', title: 'Emotions Allow You to Understand Others', desc: `Just as your own emotions provide valuable information to others, the emotional expressions of those around you also give a wealth of social information. Social communication is an important part of your daily life and relationships, and being able to interpret and react to the emotions of others is essential.4
+    backgroundColor: ' #53cbfc', title: 'Emotions Allow You to Understand Others', desc: `Just as your own emotions provide valuable information to others, the emotional expressions of those around you also give a wealth of social information. Social communication is an important part of your daily life and relationships, and being able to interpret and react to the emotions of others is essential.
 
  `
   },
