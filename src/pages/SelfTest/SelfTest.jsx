@@ -37,7 +37,6 @@ function SelfTest() {
 
   useEffect(() => {
       getEmotionalMap(UserID);
-      console.log('hello')
   }, [UserID]);
 
     useEffect(() => {
@@ -46,7 +45,6 @@ function SelfTest() {
 
 
   const postData = async () => {
-      console.log(UserID);
     try {
       const { data } = await axios.post(
         `/emotional-maps?userId=${UserID}`,
