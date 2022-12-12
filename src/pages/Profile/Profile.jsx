@@ -142,7 +142,7 @@ function Profile() {
                       align="center"
                       color="text.secondary"
                       maxWidth="sm">
-                      Email :<br></br> {emotional && user.email}
+                      Email :<br></br> {user && user.email}
                     </Typography>
                     <hr />
                     <Button
