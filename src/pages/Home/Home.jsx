@@ -66,7 +66,7 @@ function Home() {
             </Stack>
           </Container>
         </Box>
-        <img className="main_img" src={Oval} alt="Oval" />
+        <img className="main_img noselect" src={Oval} alt="Oval" />
       </main>
     </ThemeProvider>
   );

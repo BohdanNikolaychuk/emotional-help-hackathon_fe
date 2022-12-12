@@ -46,6 +46,8 @@
     opacity: .55;
     transition: transform .2s  0s ease;
 
+    white-space: nowrap;
+
     cursor: text;
 }
 

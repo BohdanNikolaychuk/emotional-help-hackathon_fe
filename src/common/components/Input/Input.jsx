@@ -1,7 +1,7 @@
 import './Input.css';
 import {useId} from "react";
 
-function Input({ labelText, onChange, style, type ='text', value }) {
+function Input({ labelText, onChange, onBlur, style, type ='text', value }) {
 
     const id = useId();
 
@@ -23,6 +23,7 @@ function Input({ labelText, onChange, style, type ='text', value }) {
                 className='common-input'
                 style={style}
                 type={type}
+                onBlur={onBlur}
                 placeholder={' '}
                 onChange={onChange}
                 value={value}

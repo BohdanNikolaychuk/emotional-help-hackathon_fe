@@ -1,5 +1,5 @@
 import axios from "../utils/axios";
-import {useState} from "react";
+import {useCallback, useState} from "react";
 import getCookie from "../utils/getCookie";
 
 const useAuthService = () => {
@@ -16,7 +16,7 @@ const useAuthService = () => {
             return data
         }  catch(error) {
             setLoading(false);
-            setError(error.message)
+            setError(error.response.data)
             throw new Error(error.message);
         }
     }
@@ -33,7 +33,7 @@ const useAuthService = () => {
 
         }  catch(error) {
             setLoading(false);
-            setError(error.message)
+            setError(error.response.data);
             throw new Error(error.message);
         }
     }
@@ -50,11 +50,23 @@ const useAuthService = () => {
 
         } catch (err) {
             setLoading(false);
-            setError(err.message);
+            setError(error.response.data)
         }
     }
 
-    return {error, loading, loginUser, registerUser, getUserInfo};
+    const clearError = useCallback(() => {
+      setError('');
+    }, []);
+
+
+    return {
+        error,
+        loading,
+        loginUser,
+        registerUser,
+        getUserInfo,
+        clearError
+    };
 }
 
 export default useAuthService;

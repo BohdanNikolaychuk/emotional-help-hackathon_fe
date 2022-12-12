@@ -53,7 +53,7 @@ function MoreInfo() {
         <Box
           sx={{
             bgcolor: 'background.paper',
-            pt: 12,
+            pt: 15,
             pb: 6,
           }}>
           <Container
@@ -94,7 +94,7 @@ function MoreInfo() {
             </Box>
           </Container>
         </Box>
-        <img className="main_img" src={Oval} alt="" />
+        <img className="main_img noselect" src={Oval} alt="" />
       </main>
     </ThemeProvider>
   );

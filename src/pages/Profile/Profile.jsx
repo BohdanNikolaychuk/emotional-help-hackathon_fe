@@ -40,15 +40,17 @@ function Profile() {
 
       setEmotional(data);
     } catch (err) {
-      alert(err);
+      // alert(err);
     } finally {
       setLoading(false);
     }
   };
 
   React.useEffect(() => {
-    getEmotionalMap();
-  }, []);
+    if( UserID ) {
+        getEmotionalMap();
+    }
+  }, [UserID]);
 
   // if (user) getEmotionalMap();
   return (
@@ -172,7 +174,7 @@ function Profile() {
             </Card>
           </Container>
         </Box>
-        <img style={OvalStyle} src={Oval} alt="" />
+        <img style={OvalStyle} src={Oval} className='noselect' alt="" />
       </main>
     </ThemeProvider>
   );

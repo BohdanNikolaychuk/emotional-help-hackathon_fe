@@ -190,7 +190,7 @@ function SelfTest() {
             )}
           </Container>
         </Box>
-        <img className="main_img" src={Oval} alt="" />
+        <img className="main_img" draggable={false} src={Oval} alt="" />
       </main>
     </ThemeProvider>
   );

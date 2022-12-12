@@ -17,7 +17,7 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 export default function Chart(pieChart) {
   const answer = pieChart.pieChart;
-  console.log(pieChart);
+  // console.log(pieChart);
   return (
     <PieChart width={pieChart.width} height={pieChart.height} style={{ zIndex: '1000' }}>
       <Pie

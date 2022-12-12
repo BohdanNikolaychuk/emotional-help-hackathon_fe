@@ -20,7 +20,7 @@ export function AuthProvider({ children }) {
     const [token, setToken, removeToken] = useCookie('token');
     const [anonymousToken,setAnonymousToken,removeAnonymousToken] = useCookie('anonymous');
     const [userState, setUserState] = useState(initialState);
-    const { loginUser, registerUser, getUserInfo } = useAuthService();
+    const { loginUser, registerUser, getUserInfo, clearError, error } = useAuthService();
 
     const getUser = async () => {
         const user = await getUserInfo();
@@ -64,6 +64,8 @@ export function AuthProvider({ children }) {
             logIn,
             logOut,
             getUser,
+            error,
+            clearError
         }}>
             {children}
         </AuthContext.Provider>

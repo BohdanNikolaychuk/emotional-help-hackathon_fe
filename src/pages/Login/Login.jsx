@@ -1,7 +1,13 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import {useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import { useAuth } from '../../context/AuthContext';
+
+import {useInput} from "../../hooks/useInput";
+
+import getIsFormValid from "../../utils/getFormValid";
+import getFormErrors from "../../utils/getFormErrors";
+import {createFormErrors} from "../../utils/createFormErrors";
 
 import Input from '../../common/components/Input/Input';
 import Button from '../../common/components/Button/Button';
@@ -11,27 +17,30 @@ import authImage from '../../assets/Register.svg';
 import './Login.css';
 import '../../common/styles/form.css';
 import '../../common/styles/auth.css';
+import '../../common/styles/inputErrors.css'
 
 function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const { logIn } = useAuth();
+  const username = useInput('', {minLength: 7, maxLength: 25, required: true});
+  const password = useInput('', {minLength: 7, maxLength: 25, required: true});
+  const { logIn, error, clearError } = useAuth();
+
+  useEffect(() => {
+    clearError();
+  }, [username.value, password.value]);
 
   const submitForm = (event) => {
     event.preventDefault();
 
-    if (!username || !password) return;
+    if (!username.value || !password.value ) return;
 
-    logIn({ username, password })
-      .then(() => {})
-      .catch((e) => {
-        alert('Not correct name or password');
-      });
+    logIn({ username: username.value, password: password.value });
   };
 
-  const handleFieldChange = (event, setStateFunction) => {
-    setStateFunction(event.target.value);
-  };
+
+  const isFormValid = getIsFormValid(username.isValid, password.isValid);
+  const usernameErrors = createFormErrors(username.errors, username.touched);
+  const passwordErrors = createFormErrors(password.errors, password.touched);
+  const formErrors = getFormErrors(error);
 
   return (
     <div className="login">
@@ -46,26 +55,43 @@ function Login() {
           </div>
 
           <fieldset className="common-form-fieldset">
-            <Input
-              labelText="Full Name"
-              value={username}
-              onChange={(event) => handleFieldChange(event, setUsername)}
-            />
+            <div className='common-form-fieldset-row'>
+              <div className='common-form-fieldset-button'>
+                <Input
+                    labelText="Full Name"
+                    value={username.value}
+                    onBlur={username.onBlur}
+                    onChange={username.onChange}
+                />
+              </div>
+              {usernameErrors}
+            </div>
           </fieldset>
 
           <fieldset className="common-form-fieldset common-form-passwords">
-            <Input
-              labelText="Password"
-              value={password}
-              minlength="7"
-              type="password"
-              onChange={(event) => handleFieldChange(event, setPassword)}
-            />
+            <div className='common-form-fieldset-row'>
+              <div className='common-form-fieldset-button'>
+                <Input
+                    labelText="Password"
+                    value={password.value}
+                    type="password"
+                    onBlur={password.onBlur}
+                    onChange={password.onChange}
+                />
+              </div>
+              {passwordErrors}
+            </div>
           </fieldset>
+
+          {formErrors}
 
           <fieldset className="common-form-fieldset common-form-footer">
             <div className="common-form-button">
-              <Button buttonText="CONTINUE" type="submit" />
+              <Button
+                  buttonText="CONTINUE"
+                  type="submit"
+                  disabled={!isFormValid}
+              />
             </div>
           </fieldset>
         </form>

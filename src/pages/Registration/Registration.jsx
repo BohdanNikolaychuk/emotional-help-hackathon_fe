@@ -1,10 +1,17 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import {useEffect, useState} from 'react';
+import { Link } from 'react-router-dom';
 
 import { useAuth } from '../../context/AuthContext';
 
+import {useInput} from "../../hooks/useInput";
+
 import Input from '../../common/components/Input/Input';
 import Button from '../../common/components/Button/Button';
+
+import getIsFormValid from "../../utils/getFormValid";
+import createFormErrors from "../../utils/createFormErrors";
+import getFormErrors from "../../utils/getFormErrors";
+
 import { Checkbox } from '@mui/material';
 
 import authImage from '../../assets/Register.svg';
@@ -13,39 +20,64 @@ import '../../common/styles/form.css';
 import '../../common/styles/auth.css';
 import './Registration.css';
 
+
 function Registration() {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [rePassword, setRePassword] = useState('');
+  const username = useInput('', { minLength: 7, maxLength: 25, required: true });
+  const email = useInput('', { minLength: 7, maxLength: 25, required: true, email: true });
+  const password = useInput('', { minLength: 7, maxLength: 25, required: true });
+  const rePassword = useInput('', { minLength: 7, maxLength: 25, required: true });
+  const [formError, setFormError] = useState('');
+
   const [policyConfirmed, setPolicyConfirmed] = useState(false);
-  const { signUp } = useAuth();
+  const { signUp, error, clearError } = useAuth();
+
+  useEffect(() => {
+    clearError();
+    setFormError('');
+  }, [username.value, email.value, password.value, rePassword.value]);
+
 
   const submitRegistration = (event) => {
     event.preventDefault();
 
-    if (!username || !email || !password || !rePassword || !policyConfirmed) return;
-    if (password !== rePassword) return;
+    if (!username.value || !email.value || !password.value || !rePassword.value ) {
+      setFormError('Please provide all values');
+      return;
+    }
 
-    signUp({ username, email, password })
-      .then(() => {})
-      .catch(() => {
-        alert('Write correct value');
-      });
-  };
+    if (password.value !== rePassword.value ) {
+      setFormError('Passwords should be equal');
+      return;
+    }
 
-  const handleFieldChange = (event, setStateFunction) => {
-    setStateFunction(event.target.value);
+
+    signUp({
+      username: username.value,
+      email: email.value,
+      password: password.value
+    });
   };
 
   const toggleCheckbox = (event) => {
     setPolicyConfirmed(event.target.checked);
   };
 
+
+
+  const isFormValid = getIsFormValid(username.isValid, email.isValid, password.isValid, rePassword.isValid);
+  const usernameErrors = createFormErrors(username.errors, username.touched);
+  const emailErrors = createFormErrors(email.errors, email.touched);
+  const passwordErrors = createFormErrors(password.errors, password.touched);
+  const rePasswordErrors = createFormErrors(rePassword.errors, rePassword.touched);
+  const formErrors = getFormErrors(error, formError);
+
   return (
     <div className="registration">
       <div className="container registration-container">
-        <form className="common-form registration-form" onSubmit={submitRegistration}>
+        <form
+            className="common-form registration-form"
+            onSubmit={submitRegistration}
+        >
           <h3 className="common-form-title">Create Your Account</h3>
 
           <div className="common-form-redirect">
@@ -55,37 +87,64 @@ function Registration() {
           </div>
 
           <fieldset className="common-form-fieldset">
-            <Input
-              labelText="Name"
-              value={username}
-              onChange={(event) => handleFieldChange(event, setUsername)}
-            />
+            <div className='common-form-fieldset-row'>
+              <div className='common-form-fieldset-button'>
+                <Input
+                    labelText="Name"
+                    value={username.value}
+                    onChange={username.onChange}
+                    onBlur={username.onBlur}
+                />
+              </div>
+              {usernameErrors}
+            </div>
           </fieldset>
 
           <fieldset className="common-form-fieldset">
-            <Input
-              labelText="Email"
-              value={email}
-              type="email"
-              onChange={(event) => handleFieldChange(event, setEmail)}
-            />
+            <div className='common-form-fieldset-row'>
+              <div className='common-form-fieldset-button'>
+                <Input
+                    labelText="Email"
+                    type="email"
+                    value={email.value}
+                    onChange={email.onChange}
+                    onBlur={email.onBlur}
+                />
+              </div>
+              {emailErrors}
+            </div>
+
           </fieldset>
 
           <fieldset className="common-form-fieldset common-form-passwords">
-            <Input
-              labelText="Password"
-              value={password}
-              type="password"
-              onChange={(event) => handleFieldChange(event, setPassword)}
-            />
+            <div className='common-form-fieldset-row'>
+              <div className='common-form-fieldset-button'>
+                <Input
+                    labelText="Password"
+                    type="password"
+                    value={password.value}
+                    onChange={password.onChange}
+                    onBlur={password.onBlur}
+                />
+              </div>
+              {passwordErrors}
+            </div>
 
-            <Input
-              labelText="Repeat password"
-              value={rePassword}
-              type="password"
-              onChange={(event) => handleFieldChange(event, setRePassword)}
-            />
+            <div className='common-form-fieldset-row'>
+              <div className='common-form-fieldset-button'>
+                <Input
+                    labelText="Repeat password"
+                    type="password"
+                    value={rePassword.value}
+                    onChange={rePassword.onChange}
+                    onBlur={rePassword.onBlur}
+                />
+              </div>
+              {rePasswordErrors}
+            </div>
           </fieldset>
+
+          {formErrors}
 
           <fieldset className="common-form-fieldset common-form-footer">
             <div className="common-form-confirm">
@@ -103,7 +162,11 @@ function Registration() {
             </div>
 
             <div className="common-form-button">
-              <Button buttonText="CONTINUE" type="submit" />
+              <Button
+                  buttonText="CONTINUE"
+                  type="submit"
+                  disabled={!isFormValid}
+              />
             </div>
           </fieldset>
         </form>

@@ -13,3 +13,8 @@
 .common-button:hover {
     background: #5ac1f6;
 }
+
+.common-button[disabled] {
+    opacity: .65;
+    pointer-events: none;
+}

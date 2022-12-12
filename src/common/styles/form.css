@@ -93,3 +93,20 @@
 .common-form-button {
     margin-left: auto;
 }
+
+.common-form-fieldset-row {
+    display: flex;
+    align-items: center;
+    gap: .5em;
+}
+
+.common-form-fieldset-button {
+    flex-grow: 1;
+}
+
+.common-form-error {
+    color: #ff4949;
+    font-size: .75em;
+    font-weight: bold;
+    margin-bottom: 1.5em;
+}
