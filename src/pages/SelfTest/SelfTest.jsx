@@ -106,6 +106,7 @@ function SelfTest() {
   const handleRepassTest = () => {
       setEmotional(null);
       setShow(false);
+      setCurrentQuestion(0);
   }
 
   return (
