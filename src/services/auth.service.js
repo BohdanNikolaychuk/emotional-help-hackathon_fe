@@ -34,7 +34,7 @@ const useAuthService = () => {
         }  catch(error) {
             setLoading(false);
             setError(error.response.data);
-            throw new Error(error.message);
+            throw new Error(error);
         }
     }
 
@@ -46,9 +46,14 @@ const useAuthService = () => {
 
             setLoading(false);
 
+
             return data;
 
         } catch (err) {
+            if( err.response?.status && err.response.status === 401) {
+                setLoading(false);
+                return err.response;
+            }
             setLoading(false);
             setError(error.response.data)
         }

@@ -116,7 +116,7 @@ function Profile() {
                       src="/broken-image.jpg"
                     />
                   </div>
-                  <Box>
+                  <Box sx={{p:2}}>
                     <Typography
                       style={{
                         position: 'relative',

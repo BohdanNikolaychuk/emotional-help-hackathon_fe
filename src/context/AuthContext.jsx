@@ -22,12 +22,6 @@ export function AuthProvider({ children }) {
     const [userState, setUserState] = useState(initialState);
     const { loginUser, registerUser, getUserInfo, clearError, error } = useAuthService();
 
-    const getUser = async () => {
-        const user = await getUserInfo();
-
-        if( user) { setUserState({...userState, user }) }
-    }
-
     const signUp = async (body) => {
         const token = await registerUser(body);
 
@@ -54,6 +48,25 @@ export function AuthProvider({ children }) {
         setAnonymousToken(newAnonymousToken);
         setUserState(() => initialState);
     }
+
+    // const getUser = async () => {
+    //     const user = await getUserInfo()
+    //         .then((response) => {
+    //             if( response && response.status === 401 ) {
+    //                 logOut()
+    //             }
+    //         });
+
+    //     if( user) { setUserState({...userState, user }) }
+    // }
+
+        const getUser = async () => {
+          const user = await getUserInfo();
+
+          if (user) {
+            setUserState({ ...userState, user });
+          }
+        };
 
     return (
         <AuthContext.Provider value={{

@@ -18,6 +18,7 @@ import { useAuth } from '../../context/AuthContext';
 import axios from '../../utils/axios';
 import useFetch from '../../utils/useFetch';
 import { useEffect } from 'react';
+import getLowestEmotional from "../../utils/getLowestEmotional";
 
 const theme = createTheme();
 
@@ -32,16 +33,24 @@ function SelfTest() {
   const [answer, setAnswer] = React.useState([]);
   const [emotional, setEmotional] = React.useState(null);
   const [emotionalLoading, setEmotionalLoading] = React.useState(false);
+  const [badEmotion,setBadEmotion] = React.useState(null);
   const { anonymousToken } = useAuth();
   const [UserID, setUserId] = React.useState(() => (user === null ? anonymousToken : user.id));
 
   useEffect(() => {
     getEmotionalMap(UserID);
+  
   }, [UserID]);
 
   useEffect(() => {
     setUserId(() => (user === null ? anonymousToken : user.id));
+
   }, [anonymousToken, user]);
+
+useEffect(() => {
+  getBadEmotion();
+}, [emotional]);
+
 
   const postData = async () => {
     try {
@@ -54,7 +63,7 @@ function SelfTest() {
           },
         },
       );
-      console.log(data);
+
       setEmotional(data.diagramValues);
     } catch (err) {
       setError(err);
@@ -73,9 +82,11 @@ function SelfTest() {
     try {
       setEmotionalLoading(true);
       const { data } = await axios.get(`/emotional-maps?userId=${UserID}`);
-      console.log(data);
+
       setShow(true);
       setEmotional(data.diagramValues);
+
+
     } catch (e) {
       setShow(false);
       setEmotional(null);
@@ -84,6 +95,17 @@ function SelfTest() {
       setEmotionalLoading(false);
     }
   };
+
+  const getBadEmotion = async () =>{
+    try {
+         const badEmotion = getLowestEmotional(emotional);
+         const {data} = await axios.get(`/advice/${badEmotion}`);
+        setBadEmotion(data);
+
+    } catch (error) {
+      
+    }
+  }
 
   //param UserId
 
@@ -162,6 +184,38 @@ function SelfTest() {
                     Your result:
                   </Typography>
                   <Chart pieChart={emotional} width={260} height={300} outerRadius={120}></Chart>
+                  <Typography
+                    variant="p"
+                    align="left"
+                    color="text.secondary"
+                    sx={{ zIndex: '1000', position: 'relative' }}
+                    paragraph
+                    maxWidth="sm">
+                    Help with {badEmotion && badEmotion.feeling.toLowerCase()}
+                  </Typography>{' '}
+                  <Button
+                    style={{
+                      textTransform: 'none',
+                      background: '#03ACF2',
+                      zIndex: '1000',
+                      position: 'relative',
+                    }}
+                    variant="contained"
+                    sx={{ m: 1 }}
+                    href={badEmotion && badEmotion.video}
+                    target="_blank"
+                    rel="noreferrer">
+                    Go to video
+                  </Button>
+                  <Typography
+                    variant="p"
+                    align="left"
+                    color="text.secondary"
+                    sx={{ zIndex: '1000', position: 'relative' }}
+                    paragraph
+                    maxWidth="sm">
+                    {badEmotion && badEmotion.tip}
+                  </Typography>
                 </Container>
               )
             ) : (
