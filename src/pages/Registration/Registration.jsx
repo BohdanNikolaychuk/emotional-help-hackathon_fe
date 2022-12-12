@@ -90,7 +90,7 @@ function Registration() {
             <div className='common-form-fieldset-row'>
               <div className='common-form-fieldset-button'>
                 <Input
-                    labelText="Name"
+                    labelText="Full Name"
                     value={username.value}
                     onChange={username.onChange}
                     onBlur={username.onBlur}
