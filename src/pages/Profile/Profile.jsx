@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useAuth } from '../../context/AuthContext';
 import axios from '../../utils/axios';
 import Chart from '../../components/PieChart/PieChart';
+import {useEffect} from "react";
 
 const theme = createTheme();
 
@@ -27,13 +28,18 @@ const OvalStyle = {
 };
 
 function Profile() {
-  const { user } = useAuth();
+  const { user, anonymousToken } = useAuth();
   const [emotional, setEmotional] = React.useState(null);
   const [show, setShow] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
-  const [anonymousToken, setAnonymousToken, removeAnonymousToken] = useCookie('anonymous');
+  const [UserID, setUserID] = React.useState(() => user === null ? anonymousToken : user.id)
 
-  let UserID = user === null ? anonymousToken : user.id;
+
+  useEffect(() => {
+    setUserID(() => user === null ? anonymousToken : user.id);
+  }, [anonymousToken, user]);
+
+
   const getEmotionalMap = async () => {
     try {
       const { data } = await axios.get(`/emotional-maps?userId=${UserID}`);

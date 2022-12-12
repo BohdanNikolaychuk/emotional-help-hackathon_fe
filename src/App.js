@@ -1,6 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-import { useCookie } from "./hooks/useCoockie";
 import { useEffect } from "react";
 
 import { v4 } from 'uuid';
@@ -15,12 +14,10 @@ import { useAuth } from "./context/AuthContext";
 import MoreInfo from './pages/MoreInfo/MoreInfo';
 
 function App() {
-  const [anonymousCookie, setAnonymousCookie] = useCookie('anonymous');
-  const [token] = useCookie('token');
-  const { getUser, isTokenAuth } = useAuth();
+  const { getUser, isTokenAuth, anonymousToken, setAnonymousToken, token } = useAuth();
 
   useEffect(() => {
-    if (!anonymousCookie && !token) setAnonymousCookie(v4());
+    if (!anonymousToken && !token) setAnonymousToken(v4());
     if (token) getUser();
   }, []);
 

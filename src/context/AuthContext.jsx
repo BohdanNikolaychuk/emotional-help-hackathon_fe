@@ -50,7 +50,8 @@ export function AuthProvider({ children }) {
 
     const logOut = () => {
         removeToken();
-        setAnonymousToken(v4());
+        const newAnonymousToken = v4();
+        setAnonymousToken(newAnonymousToken);
         setUserState(() => initialState);
     }
 
@@ -60,6 +61,10 @@ export function AuthProvider({ children }) {
             isTokenAuth: !!token,
             userState: userState,
             user: userState.user,
+            anonymousToken,
+            setAnonymousToken,
+            token,
+            setToken,
             signUp,
             logIn,
             logOut,

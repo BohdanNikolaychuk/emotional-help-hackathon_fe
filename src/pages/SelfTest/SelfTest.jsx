@@ -17,6 +17,7 @@ import Chart from '../../components/PieChart/PieChart';
 import { useAuth } from '../../context/AuthContext';
 import axios from '../../utils/axios';
 import useFetch from '../../utils/useFetch';
+import {useEffect} from "react";
 
 const theme = createTheme();
 
@@ -30,10 +31,22 @@ function SelfTest() {
   const [currentQuestion, setCurrentQuestion] = React.useState(0);
   const [answer, setAnswer] = React.useState([]);
   const [emotional, setEmotional] = React.useState(null);
-  const [anonymousToken, setAnonymousToken, removeAnonymousToken] = useCookie('anonymous');
+  const [emotionalLoading, setEmotionalLoading] = React.useState(false);
+  const {anonymousToken} = useAuth();
+  const [UserID, setUserId] = React.useState(() => user === null ? anonymousToken : user.id);
 
-  let UserID = user === null ? anonymousToken : user.id;
+  useEffect(() => {
+      getEmotionalMap(UserID);
+      console.log('hello')
+  }, [UserID]);
+
+    useEffect(() => {
+        setUserId(() => user === null ? anonymousToken : user.id);
+    }, [anonymousToken, user]);
+
+
   const postData = async () => {
+      console.log(UserID);
     try {
       const { data } = await axios.post(
         `/emotional-maps?userId=${UserID}`,
@@ -53,6 +66,29 @@ function SelfTest() {
     }
   };
 
+    const getEmotionalMap = async (UserID) => {
+        if (!UserID) {
+            setShow(false);
+            setEmotional(null);
+            return;
+        }
+
+        try {
+            setEmotionalLoading(true)
+            const { data } = await axios.get(`/emotional-maps?userId=${UserID}`);
+
+            setShow(true);
+            setEmotional(data);
+        }
+        catch (e) {
+            setShow(false);
+            setEmotional(null);
+        }
+        finally {
+            setEmotionalLoading(false);
+        }
+    };
+
   //param UserId
 
   const handleAnswerOptionClick = (currentAnswer) => {
@@ -68,6 +104,11 @@ function SelfTest() {
       setShow(!show);
     }
   };
+
+  const handleRepassTest = () => {
+      setEmotional(null);
+      setShow(false);
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -94,6 +135,24 @@ function SelfTest() {
               to="/">
               Go Back
             </Button>
+
+            { !!emotional &&
+                <Button
+                    style={{
+                        textTransform: 'none',
+                        background: '#03ACF2',
+                        zIndex: '1000',
+                        position: 'relative',
+                    }}
+                    size="large"
+                    variant="contained"
+                    sx={{ m: 2 }}
+                    onClick={handleRepassTest}
+                >
+                    Take the test again
+                </Button>
+            }
+
             {show ? (
               emotional && (
                 <Container maxWidth="sm">
@@ -116,7 +175,7 @@ function SelfTest() {
                   zIndex: '100',
                   border: '1px solid #03ACF2',
                 }}>
-                {loading ? (
+                {loading || emotionalLoading ? (
                   <Typography
                     variant="h5"
                     align="left"
@@ -190,7 +249,7 @@ function SelfTest() {
             )}
           </Container>
         </Box>
-        <img className="main_img" draggable={false} src={Oval} alt="" />
+        <img className="main_img noselect" draggable={false} src={Oval} alt="" />
       </main>
     </ThemeProvider>
   );
