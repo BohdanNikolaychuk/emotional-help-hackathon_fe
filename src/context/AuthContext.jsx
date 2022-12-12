@@ -49,16 +49,24 @@ export function AuthProvider({ children }) {
         setUserState(() => initialState);
     }
 
-    const getUser = async () => {
-        const user = await getUserInfo()
-            .then((response) => {
-                if( response && response.status === 401 ) {
-                    logOut()
-                }
-            });
+    // const getUser = async () => {
+    //     const user = await getUserInfo()
+    //         .then((response) => {
+    //             if( response && response.status === 401 ) {
+    //                 logOut()
+    //             }
+    //         });
 
-        if( user) { setUserState({...userState, user }) }
-    }
+    //     if( user) { setUserState({...userState, user }) }
+    // }
+
+        const getUser = async () => {
+          const user = await getUserInfo();
+
+          if (user) {
+            setUserState({ ...userState, user });
+          }
+        };
 
     return (
         <AuthContext.Provider value={{
