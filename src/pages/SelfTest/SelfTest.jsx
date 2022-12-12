@@ -17,7 +17,7 @@ import Chart from '../../components/PieChart/PieChart';
 import { useAuth } from '../../context/AuthContext';
 import axios from '../../utils/axios';
 import useFetch from '../../utils/useFetch';
-import {useEffect} from "react";
+import { useEffect } from 'react';
 
 const theme = createTheme();
 
@@ -32,17 +32,16 @@ function SelfTest() {
   const [answer, setAnswer] = React.useState([]);
   const [emotional, setEmotional] = React.useState(null);
   const [emotionalLoading, setEmotionalLoading] = React.useState(false);
-  const {anonymousToken} = useAuth();
-  const [UserID, setUserId] = React.useState(() => user === null ? anonymousToken : user.id);
+  const { anonymousToken } = useAuth();
+  const [UserID, setUserId] = React.useState(() => (user === null ? anonymousToken : user.id));
 
   useEffect(() => {
-      getEmotionalMap(UserID);
+    getEmotionalMap(UserID);
   }, [UserID]);
 
-    useEffect(() => {
-        setUserId(() => user === null ? anonymousToken : user.id);
-    }, [anonymousToken, user]);
-
+  useEffect(() => {
+    setUserId(() => (user === null ? anonymousToken : user.id));
+  }, [anonymousToken, user]);
 
   const postData = async () => {
     try {
@@ -55,8 +54,8 @@ function SelfTest() {
           },
         },
       );
-
-      setEmotional(data);
+      console.log(data);
+      setEmotional(data.diagramValues);
     } catch (err) {
       setError(err);
     } finally {
@@ -64,29 +63,27 @@ function SelfTest() {
     }
   };
 
-    const getEmotionalMap = async (UserID) => {
-        if (!UserID) {
-            setShow(false);
-            setEmotional(null);
-            return;
-        }
+  const getEmotionalMap = async (UserID) => {
+    if (!UserID) {
+      setShow(false);
+      setEmotional(null);
+      return;
+    }
 
-        try {
-            setEmotionalLoading(true)
-            const { data } = await axios.get(`/emotional-maps?userId=${UserID}`);
-
-            setShow(true);
-            setEmotional(data);
-        }
-        catch (e) {
-            setShow(false);
-            setEmotional(null);
-            setCurrentQuestion(0);
-        }
-        finally {
-            setEmotionalLoading(false);
-        }
-    };
+    try {
+      setEmotionalLoading(true);
+      const { data } = await axios.get(`/emotional-maps?userId=${UserID}`);
+      console.log(data);
+      setShow(true);
+      setEmotional(data.diagramValues);
+    } catch (e) {
+      setShow(false);
+      setEmotional(null);
+      setCurrentQuestion(0);
+    } finally {
+      setEmotionalLoading(false);
+    }
+  };
 
   //param UserId
 
@@ -105,10 +102,10 @@ function SelfTest() {
   };
 
   const handleRepassTest = () => {
-      setEmotional(null);
-      setShow(false);
-      setCurrentQuestion(0);
-  }
+    setEmotional(null);
+    setShow(false);
+    setCurrentQuestion(0);
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -136,22 +133,21 @@ function SelfTest() {
               Go Back
             </Button>
 
-            { !!emotional &&
-                <Button
-                    style={{
-                        textTransform: 'none',
-                        background: '#03ACF2',
-                        zIndex: '1000',
-                        position: 'relative',
-                    }}
-                    size="large"
-                    variant="contained"
-                    sx={{ m: 2 }}
-                    onClick={handleRepassTest}
-                >
-                    Take the test again
-                </Button>
-            }
+            {!!emotional && (
+              <Button
+                style={{
+                  textTransform: 'none',
+                  background: '#03ACF2',
+                  zIndex: '1000',
+                  position: 'relative',
+                }}
+                size="large"
+                variant="contained"
+                sx={{ m: 2 }}
+                onClick={handleRepassTest}>
+                Take the test again
+              </Button>
+            )}
 
             {show ? (
               emotional && (
@@ -160,6 +156,7 @@ function SelfTest() {
                     variant="h5"
                     align="left"
                     color="text.secondary"
+                    sx={{ zIndex: '1000', position: 'relative' }}
                     paragraph
                     maxWidth="sm">
                     Your result:

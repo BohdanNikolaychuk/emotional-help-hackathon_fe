@@ -5,6 +5,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
 import { useCookie } from '../../hooks/useCoockie';
+
+import moment from 'moment';
+
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -15,7 +18,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useAuth } from '../../context/AuthContext';
 import axios from '../../utils/axios';
 import Chart from '../../components/PieChart/PieChart';
-import {useEffect} from "react";
+import { useEffect } from 'react';
 
 const theme = createTheme();
 
@@ -32,29 +35,27 @@ function Profile() {
   const [emotional, setEmotional] = React.useState(null);
   const [show, setShow] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
-  const [UserID, setUserID] = React.useState(() => user === null ? anonymousToken : user.id)
-
-
+  const [UserID, setUserID] = React.useState(() => (user === null ? anonymousToken : user.id));
+  const [time, setTime] = React.useState(null);
   useEffect(() => {
-    setUserID(() => user === null ? anonymousToken : user.id);
+    setUserID(() => (user === null ? anonymousToken : user.id));
   }, [anonymousToken, user]);
-
 
   const getEmotionalMap = async () => {
     try {
       const { data } = await axios.get(`/emotional-maps?userId=${UserID}`);
 
-      setEmotional(data);
+      setEmotional(data.diagramValues);
+      setTime(data.createDate);
     } catch (err) {
-      // alert(err);
     } finally {
       setLoading(false);
     }
   };
 
   React.useEffect(() => {
-    if( UserID ) {
-        getEmotionalMap();
+    if (UserID) {
+      getEmotionalMap();
     }
   }, [UserID]);
 
@@ -141,7 +142,7 @@ function Profile() {
                       align="center"
                       color="text.secondary"
                       maxWidth="sm">
-                      Email :<br></br> {user && user.email}
+                      Email :<br></br> {emotional && user.email}
                     </Typography>
                     <hr />
                     <Button
@@ -172,7 +173,12 @@ function Profile() {
               </Button>
               {show ? (
                 emotional && (
-                  <Chart pieChart={emotional} width={200} height={200} outerRadius={60}></Chart>
+                  <>
+                    <Typography variant="h6" align="center" color="text.secondary" maxWidth="sm">
+                      Last take quiz :<br></br> {new Date(time + 'Z').toLocaleString()}
+                    </Typography>
+                    <Chart pieChart={emotional} width={200} height={200} outerRadius={60}></Chart>
+                  </>
                 )
               ) : (
                 <></>
@@ -180,7 +186,7 @@ function Profile() {
             </Card>
           </Container>
         </Box>
-        <img style={OvalStyle} src={Oval} className='noselect' alt="" />
+        <img style={OvalStyle} src={Oval} className="noselect" alt="" />
       </main>
     </ThemeProvider>
   );
