@@ -77,7 +77,7 @@ function SelfTest() {
       console.log(data);
       setShow(true);
       setEmotional(data.diagramValues);
-      getLowestEmotional([{name: "joy", value: 50}, {name: 'happiness', value: 60}]);
+      console.log(getLowestEmotional(data.diagramValues));
     } catch (e) {
       setShow(false);
       setEmotional(null);

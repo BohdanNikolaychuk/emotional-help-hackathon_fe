@@ -12,17 +12,20 @@ const getFilteredObject = (emotional, preferredEmotions) => {
 };
 
 const getHighestEmotionalValue = (emotional) => {
-    return Object.keys(emotional)
+    const highestValue = Object.keys(emotional)
         .reduce((previousKey, currentKey) =>
             emotional[previousKey] > emotional[currentKey] ? previousKey : currentKey
         )
+
+    return highestValue.toUpperCase() ?? null;
 }
 
 const getLowestEmotionalValue = (emotional) => {
-    return Object.keys(emotional)
+    const lowestValue = Object.keys(emotional)
         .reduce((previousKey, currentKey) =>
             emotional[previousKey] < emotional[currentKey] ? previousKey : currentKey
-        );
+        )
+    return lowestValue?.toUpperCase() ?? null;
 }
 
 const getLowestEmotional = (diagramValues = []) => {
@@ -42,7 +45,11 @@ const getLowestEmotional = (diagramValues = []) => {
 
     const positiveValues = getFilteredObject(emotionalValues, positiveEmotions);
 
-    return getLowestEmotionalValue(positiveValues);
+    if ( Object.keys(positiveValues).length ) {
+        return getLowestEmotionalValue(positiveValues)
+    }
+
+    return null;
 
 }
 
