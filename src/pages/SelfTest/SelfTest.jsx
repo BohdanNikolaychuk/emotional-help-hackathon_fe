@@ -18,6 +18,7 @@ import { useAuth } from '../../context/AuthContext';
 import axios from '../../utils/axios';
 import useFetch from '../../utils/useFetch';
 import { useEffect } from 'react';
+import getLowestEmotional from "../../utils/getLowestEmotional";
 
 const theme = createTheme();
 
@@ -76,6 +77,7 @@ function SelfTest() {
       console.log(data);
       setShow(true);
       setEmotional(data.diagramValues);
+      getLowestEmotional([{name: "joy", value: 50}, {name: 'happiness', value: 60}]);
     } catch (e) {
       setShow(false);
       setEmotional(null);
