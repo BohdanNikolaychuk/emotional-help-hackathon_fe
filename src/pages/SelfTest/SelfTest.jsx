@@ -81,6 +81,7 @@ function SelfTest() {
         catch (e) {
             setShow(false);
             setEmotional(null);
+            setCurrentQuestion(0);
         }
         finally {
             setEmotionalLoading(false);
