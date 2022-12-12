@@ -192,7 +192,21 @@ useEffect(() => {
                     paragraph
                     maxWidth="sm">
                     Help with {badEmotion && badEmotion.feeling.toLowerCase()}
-                  </Typography>
+                  </Typography>{' '}
+                  <Button
+                    style={{
+                      textTransform: 'none',
+                      background: '#03ACF2',
+                      zIndex: '1000',
+                      position: 'relative',
+                    }}
+                    variant="contained"
+                    sx={{ m: 1 }}
+                    href={badEmotion && badEmotion.video}
+                    target="_blank"
+                    rel="noreferrer">
+                    Go to video
+                  </Button>
                   <Typography
                     variant="p"
                     align="left"
@@ -202,21 +216,6 @@ useEffect(() => {
                     maxWidth="sm">
                     {badEmotion && badEmotion.tip}
                   </Typography>
-                  <Button
-                    style={{
-                      textTransform: 'none',
-                      background: '#03ACF2',
-                      zIndex: '1000',
-                      position: 'relative',
-                    }}
-                    size="large"
-                    variant="contained"
-                    sx={{ m: 2 }}
-                    href={badEmotion && badEmotion.video}
-                    target="_blank"
-                    rel="noreferrer">
-                    Go to video
-                  </Button>
                 </Container>
               )
             ) : (
